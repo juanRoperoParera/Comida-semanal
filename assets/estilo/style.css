@@ -1,0 +1,482 @@
+/* Color */
+:root {
+    --main: #d8d8d8;
+    --card: #d8d8d8;
+    --details: #05b661;
+    --detailslight: #adbbb4;
+    --details2: #77abc0;
+    --details50: rgba(111, 150, 131, 0.123);
+    --text: #1A1A1A;
+}
+
+/* General */
+body {
+    box-sizing: border-box;
+    margin: 0px;
+    background-color: var(--main);
+    color: var(--text);
+
+}
+
+.calendario table td.marcado {
+    background-color: var(--details);
+}
+
+.calendario table td.seleccionado {
+    background-color: var(--details2);
+}
+
+.boton {
+    background-color: var(--details);
+    color: var(--text);
+    padding: 0.5rem;
+    margin: 0rem 0.5rem 0rem 0.5rem;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.boton:hover {
+    color: var(--card);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+a {
+    font-family: 'Varela Round', sans-serif;
+}
+
+p {
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+main {
+    min-height: 100vh;
+}
+
+/* header */
+
+.header {
+    margin: auto;
+    position: fixed;
+    width: 100%;
+    left: 50%;
+    transform: translate(-50%);
+    padding: 0.10rem 5rem 0.10rem 5rem;
+    z-index: 3;
+    background-color: var(--detailslight);
+}
+
+.header ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+}
+
+.header li a {
+    display: block;
+    text-decoration: none;
+    color: var(--text);
+    padding: 0.10rem 0.25rem 0.10rem 0.25rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.header li a:hover,
+.header .menu-btn:hover {
+    color: var(--details);
+}
+
+.header .logo {
+    display: block;
+    float: left;
+    margin: 1rem 0rem 1rem 2rem;
+
+    text-decoration: none;
+    color: var(--text);
+}
+
+.header .logo img {
+    height: 35px;
+    width: 35px;
+}
+
+/* menu */
+
+.header .menu {
+    clear: both;
+    max-height: 0;
+    transition: max-height .2s ease-out;
+    background-color: var(--details50);
+}
+
+/* menu icon */
+
+.header .menu-icon {
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+    padding: 28px 20px;
+    position: relative;
+    user-select: none;
+    color: var(--main);
+}
+
+.header .menu-icon .navicon {
+    background: var(--text);
+    display: block;
+    height: 2px;
+    position: relative;
+    transition: background .2s ease-out;
+    width: 18px;
+}
+
+.header .menu-icon .navicon:before,
+.header .menu-icon .navicon:after {
+    background: var(--text);
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    transition: all .2s ease-out;
+    width: 100%;
+}
+
+.header .menu-icon .navicon:before {
+    top: 5px;
+}
+
+.header .menu-icon .navicon:after {
+    top: -5px;
+}
+
+/* menu btn */
+
+.header .menu-btn {
+    display: none;
+}
+
+.header .menu-btn:checked~.menu {
+    max-height: 240px;
+}
+
+.header .menu-btn:checked~.menu-icon .navicon {
+    background: transparent;
+}
+
+.header .menu-btn:checked~.menu-icon .navicon:before {
+    transform: rotate(-45deg);
+}
+
+.header .menu-btn:checked~.menu-icon .navicon:after {
+    transform: rotate(45deg);
+}
+
+.header .menu-btn:checked~.menu-icon:not(.steps) .navicon:before,
+.header .menu-btn:checked~.menu-icon:not(.steps) .navicon:after {
+    top: 0;
+}
+
+.infoDia {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    background-color: var(--details50);
+    text-align: left;
+}
+
+.infoDia h3 {
+    grid-column: 1/2;
+    background-color: var(--details);
+    margin: 0px;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 4px 0px 0px 0px;
+}
+
+.infoDia h4 {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    text-align: right;
+    background-color: var(--details);
+    margin: 0px;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0px 4px 0px 0px;
+}
+
+.infoDia>p {
+    padding: 1rem;
+}
+
+.infoDia .meteo {
+    grid-column: 2/3;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+.infoDia .meteo img {
+    width: 20%;
+    min-width: 100px;
+}
+
+.infoDia .meteo ul {
+    list-style: none;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0px;
+}
+
+.infoDia .meteo ul li {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.infoDia .meteo ul li.max {
+    background-color: rgb(192, 121, 112);
+}
+
+.infoDia .meteo ul li.min {
+    background-color: rgb(89, 176, 202);
+}
+
+.infoDia .meteo ul li.text {
+    font-size: 0.95rem;
+    margin-top: 2rem;
+}
+
+.infoDia .meteo ul li.lluvia {
+    margin-top: 2rem;
+}
+
+
+
+/* 48em = 768px */
+
+@media (min-width: 65em) {
+    .header li {
+        float: left;
+    }
+
+    .header li a {
+        margin: 1rem 1rem 1rem 1rem;
+        text-align: left;
+        border-bottom: 2px solid var(--details);
+    }
+
+    .header .menu {
+        clear: none;
+        float: right;
+        max-height: none;
+        background-color: var(--detailslight);
+    }
+
+    .header .menu-icon {
+        display: none;
+    }
+}
+
+@media(max-width:65rem) {
+    .header {
+        padding: 0.05rem;
+    }
+
+    .header .logo {
+        margin: 0px;
+        padding: 1rem;
+    }
+}
+
+
+/* Calendario */
+.calendario {
+    padding: 2rem;
+    text-align: center;
+    padding-top: 8rem;
+}
+
+.calendario h1 {
+    width: fit-content;
+    margin: auto;
+    margin-bottom: 2rem;
+    padding: 0.5rem;
+    background-color: var(--details);
+    border-radius: 3px;
+}
+
+.calendario h2 {
+    margin-top: 1rem;
+}
+
+.calendario table {
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.calendario table td,
+.calendario table th {
+    border: 2px solid var(--main);
+    background-color: var(--details50);
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.10rem;
+}
+
+.calendario table a {
+    text-decoration: none;
+    color: var(--text);
+}
+
+.card.dia img {
+    height: 10rem;
+    object-fit: cover;
+}
+
+.alreves {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.alreves div {
+    margin: 0.5rem 0rem 0.75rem 0rem;
+}
+
+
+/* Gestion comidas */
+.comidas {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding-top: 7rem;
+    margin-bottom: 2rem;
+}
+
+.comidas h1 {
+    width: fit-content;
+    grid-column: 1/-1;
+    margin-left: 0.5rem;
+    background-color: var(--details);
+    border-radius: 3px;
+    padding: 0.5rem;
+}
+
+.comidas .card {
+    margin: 0.5rem;
+}
+
+.comidas .card img {
+    height: 8rem;
+    object-fit: cover;
+}
+
+.Ensalada {
+    background-color: #007c152f;
+}
+
+.Carne {
+    background-color: rgba(218, 26, 26, 0.158);
+}
+
+.Pasta {
+    background-color: rgba(255, 140, 0, 0.185);
+}
+
+.Pescado {
+    background-color: rgba(3, 178, 247, 0.103);
+}
+
+.Guiso {
+    background-color: rgba(63, 37, 12, 0.253);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem 1rem 1rem 1rem;
+    background-color: var(--detailslight);
+}
+
+footer p {
+    margin: 0px;
+    font-size: 0.75rem;
+}
+
+@media(max-width: 900px) {
+    .comidas {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .infoDia .meteo ul li {
+        font-size: 1.2rem;
+    }
+    .infoDia .card{
+        grid-column: 1/-1;
+    }
+
+    .infoDia h3{
+        grid-column: 1/-1;
+        text-align: center;
+    }
+
+    .infoDia h4{
+        grid-row: 3/4;
+        grid-column: 1/-1;
+        text-align: center;
+    }
+
+    .infoDia .meteo{
+        grid-column: 1/-1;
+    }
+
+    .infoDia .meteo ul li.lluvia,.infoDia .meteo ul li.text {
+        margin-top: 0.7rem;
+    }
+
+    .infoDia .meteo ul li.text{
+        font-size: 0.8rem;
+    }
+}
+
+@media(max-width: 540px) {
+    .calendario {
+        padding-top: 6rem;
+    }
+
+    .calendario table td,
+    .calendario table th {
+        padding: 0.25rem;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    .calendario h2 {}
+
+    h3,
+    h4,
+    h5 {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    p {
+        font-size: 0.95rem;
+    }
+
+    .comidas {
+        grid-template-columns: 1fr 1fr;
+    }
+}
