@@ -29,6 +29,14 @@
             <h1>CALENDARIO</h1>
             <?php
 
+            $hoy = time();
+            $diaSemanaActual = date("N", $hoy);
+
+            $inicioSemanaActual = strtotime("last monday", $hoy);
+            $finSemanaActual = strtotime("next sunday", $inicioSemanaActual);
+
+            $inicioSiguienteSemana = strtotime("next monday", $inicioSemanaActual);
+            $finSiguienteSemana = strtotime("next sunday", $inicioSiguienteSemana);
 
             if (isset($_GET['mes']) && isset($_GET['anio'])) {
                 $mes = (int)$_GET['mes'];
@@ -46,7 +54,10 @@
 
             echo "<div class='infoDia'>";
             if (isset($_GET['dia'])) {
+
                 $dia = $_GET['dia'];
+
+
                 if ($mes < 10 && $dia < 10) {
                     echo "<h3>Comida para el 0$dia/0$mes/$anio</h3>";
                 } elseif ($mes < 10) {
@@ -134,7 +145,7 @@
                                 $comida[$j]['categoria'] = $fila['categoria'];
                                 $comida[$j]['foto'] = $fila['foto'];
                                 $comida[$j]['estado'] = $fila['estado'];
-                                $comida[$j]['descripcion'] = $fila['descripcion']; 
+                                $comida[$j]['descripcion'] = $fila['descripcion'];
 
                                 $j++;
                             }

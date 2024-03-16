@@ -47,51 +47,37 @@ function mostrarCalendario($mes, $anio)
     }
     echo '</tr>';
 
-    $diaActual = 1;
-    $diaSemana = ($primerDiaMes->format('N') + 6) % 7; // Ajustamos el día de inicio para que sea lunes
-    $diasEnMes = $ultimoDiaMes->format('j');
-    $hoy = date('j');
-    $mesActual = date('n');
-    if (isset($_GET['dia'])) {
-        $seleccionado = $_GET['dia'];
-    }
+    // Calcular la fecha de inicio de la semana actual (lunes)
+    $inicioSemanaActual = clone $primerDiaMes;
+    $inicioSemanaActual->modify('last monday');
 
+    // Calcular la fecha de fin de la semana siguiente (domingo)
+    $finSiguienteSemana = clone $inicioSemanaActual;
+    $finSiguienteSemana->modify('+1 week');
+    $finSiguienteSemana->modify('next sunday');
 
-    for ($fila = 0; $fila < 6; $fila++) {
+    $diaActual = (int) $inicioSemanaActual->format('d');
+
+    while ($inicioSemanaActual <= $finSiguienteSemana) {
         echo '<tr>';
-        for ($col = 0; $col < 7; $col++) {
-            if ($fila === 0 && $col < $diaSemana) {
-                echo '<td></td>';
-            } else {
-                if ($diaActual <= $diasEnMes) {
-                    if (isset($_GET['dia']) && $diaActual == $seleccionado) {
-                        echo "<td class='seleccionado'>  
-                                <a href='index.php?mes=$mes&anio=$anio&dia=$diaActual'>$diaActual </a>
-                             </td>";
-                    } elseif ($diaActual   == $hoy && $mesActual == $mes) {
-                        echo "<td class='marcado'>  
-                                <a href='index.php?mes=$mes&anio=$anio&dia=$diaActual'>$diaActual </a>
-                             </td>";
-                    } else {
-                        echo "<td>  
-                                <a href='index.php?mes=$mes&anio=$anio&dia=$diaActual'>$diaActual </a>
-                            </td>";
-                    }
-
-                    $diaActual++;
-                } else {
-                    echo '<td></td>';
+        for ($i = 0; $i < 7; $i++) {
+            if ($inicioSemanaActual->format('n') == $mes) {
+                echo '<td>';
+                if ($diaActual <= (int) $ultimoDiaMes->format('d')) {
+                    echo $inicioSemanaActual->format('d');
                 }
+                echo '</td>';
+            } else {
+                echo '<td></td>';
             }
+            $inicioSemanaActual->modify('+1 day');
         }
         echo '</tr>';
-        if ($diaActual > $diasEnMes) {
-            break;
-        }
     }
 
     echo '</table>';
 }
+
 
 function generarSemana()
 {
