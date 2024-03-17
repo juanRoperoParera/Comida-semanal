@@ -1,42 +1,108 @@
+// Obtener los elementos arrastrables
+var draggables = document.querySelectorAll('.seleccionComidas .comida');
+var data = [];
 
-const contenedor=document.querySelector(".meteo");
+// Obtener los elementos de la tabla
+var tds = document.querySelectorAll('.calendario table td');
 
-let info;
+var table = document.querySelector('table');
 
-let ciudad = 'Granada';
+// Agregar eventos dragstart y dragend a los elementos arrastrables
+draggables.forEach(function (draggable) {
+  draggable.addEventListener('dragstart', function (e) {
+    e.dataTransfer.setData('text/plain', draggable.id);
+  });
 
-busqueda(ciudad);
+  draggable.addEventListener('dragend', function () {
+    // Limpiar cualquier clase de resaltado
+    tds.forEach(function (td) {
+      td.classList.remove('over');
+    });
+  });
+});
 
-async function busqueda(busqueda){
-  const respuesta = await fetch(`http://api.weatherapi.com/v1/forecast.json?=${busqueda}`);
-  const datos = await respuesta.json();
-  info = datos;
-  let temp_max=info.forecast.forecastday[0].day.maxtemp_c;
-  let temp_min=info.forecast.forecastday[0].day.mintemp_c;
-  let viento=info.forecast.forecastday[0].day.maxwind_kph;
-  let probabilidad_lluvia = info.forecast.forecastday[0].day.daily_chance_of_rain;
-  let uv = info.forecast.forecastday[0].day.uv;
-  let amanecer=info.forecast.forecastday[0].astro.sunrise;
-  let atardecer=info.forecast.forecastday[0].astro.sunset;
-  let icono=info.forecast.forecastday[0].day.condition.icon;
+// Agregar eventos dragover, dragenter, dragleave y drop a los elementos de la tabla
+tds.forEach(function (td) {
+  td.addEventListener('dragover', function (e) {
+    e.preventDefault();
+  });
 
-  console.log(info.forecast.forecastday[0]);
+  td.addEventListener('dragenter', function (e) {
+    e.preventDefault();
+    td.classList.add('over');
+  });
 
-  crearDOM(temp_max,temp_min,icono,amanecer,atardecer,probabilidad_lluvia,uv,viento);
+  td.addEventListener('dragleave', function () {
+    td.classList.remove('over');
+  });
+
+  td.addEventListener('drop', function (e) {
+    e.preventDefault();
+
+    var draggableId = e.dataTransfer.getData('text/plain');
+    var draggable = document.getElementById(draggableId);
+    td.appendChild(draggable);
+    td.classList.remove('over');
+
+    guardarTablaEnLocalStorage();
+
+    var tableFilas = document.querySelectorAll('table tr>td');
+
+    if (tableFilas instanceof NodeList) {
+      // Convertir NodeList a array utilizando Array.from()
+      tableFilas = Array.from(tableFilas);
+    }
+
+    tableFilas.forEach(function (contenedor) {
+      var h5Element = contenedor.querySelector('h5');
+
+      if (h5Element) {
+        var contenido = {
+          titulo: h5Element.textContent,
+        };
+
+      }
+
+
+      data.push(contenido);
+    });
+
+    fetch('../index.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      // Verifica si la respuesta fue exitosa
+      if (!response.ok) {
+        throw new Error('La solicitud no fue exitosa');
+      }
+      // Procesa la respuesta como JSON
+      return response.json();
+    })
+    .then(data => {
+      // Maneja los datos recibidos
+      console.log(data);
+    })
+    .catch(error => {
+      // Maneja los errores que puedan ocurrir durante la solicitud
+      console.error('Error:', error);
+    });
+  });
+});
+
+function guardarTablaEnLocalStorage() {
+  var tablaHTML = table.innerHTML;
+  localStorage.setItem('tablaHTML', tablaHTML);
 }
 
-function crearDOM(temp_max,temp_min,icono,amanecer,atardecer,probabilidad_lluvia,uv,viento) {
-  contenedor.innerHTML+=`
-    <ul>
-        <li class='max'>${temp_max} °C</li>
-        <li class='min'>${temp_min} °C</li>
-        <li class='text'>Amanecer</li>
-        <li class='text'>Atardecer</li>
-        <li>${amanecer}</li>
-        <li>${atardecer}</li>
-        <li class='lluvia'><i class="fa-solid fa-cloud-showers-heavy"></i> ${probabilidad_lluvia} %</li>
-        <li class='lluvia'><i class="fa-solid fa-wind"></i> ${viento} km/h</li>
-    </ul>
-    <img src='${icono}' alt=''>
-  `;
+function restaurarTablaDesdeLocalStorage() {
+  var tablaGuardada = localStorage.getItem('tablaHTML');
+  if (tablaGuardada) {
+    table.innerHTML = tablaGuardada;
+  }
 }
+
+restaurarTablaDesdeLocalStorage();

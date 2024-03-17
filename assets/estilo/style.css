@@ -180,79 +180,27 @@ main {
     top: 0;
 }
 
-.infoDia {
+.seleccionComidas{
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    background-color: var(--details50);
-    text-align: left;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-.infoDia h3 {
-    grid-column: 1/2;
+.seleccionComidas .comida {
+    cursor: grab;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.seleccionComidas .comida:active {
+    transform: scale(1.1);
+}
+
+/* Estilos para el área de destino al soltar */
+.calendario table td.over {
     background-color: var(--details);
-    margin: 0px;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    border-radius: 4px 0px 0px 0px;
 }
 
-.infoDia h4 {
-    grid-column: 2/3;
-    grid-row: 1/2;
-    text-align: right;
-    background-color: var(--details);
-    margin: 0px;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    border-radius: 0px 4px 0px 0px;
-}
-
-.infoDia>p {
-    padding: 1rem;
-}
-
-.infoDia .meteo {
-    grid-column: 2/3;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    padding: 1rem;
-}
-
-.infoDia .meteo img {
-    width: 20%;
-    min-width: 100px;
-}
-
-.infoDia .meteo ul {
-    list-style: none;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0px;
-}
-
-.infoDia .meteo ul li {
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-.infoDia .meteo ul li.max {
-    background-color: rgb(192, 121, 112);
-}
-
-.infoDia .meteo ul li.min {
-    background-color: rgb(89, 176, 202);
-}
-
-.infoDia .meteo ul li.text {
-    font-size: 0.95rem;
-    margin-top: 2rem;
-}
-
-.infoDia .meteo ul li.lluvia {
-    margin-top: 2rem;
-}
 
 
 
@@ -462,8 +410,6 @@ footer p {
     h2 {
         font-size: 1.25rem;
     }
-
-    .calendario h2 {}
 
     h3,
     h4,

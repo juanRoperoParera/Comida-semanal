@@ -29,50 +29,28 @@
             <h1>CALENDARIO</h1>
             <?php
 
-            $hoy = time();
-            $diaSemanaActual = date("N", $hoy);
+            // Obtener la fecha de hoy
+            $hoy = new DateTime();
 
-            $inicioSemanaActual = strtotime("last monday", $hoy);
-            $finSemanaActual = strtotime("next sunday", $inicioSemanaActual);
+            // Obtener el primer día de la semana actual
+            $inicioSemanaActual = new DateTime('monday this week');
 
-            $inicioSiguienteSemana = strtotime("next monday", $inicioSemanaActual);
-            $finSiguienteSemana = strtotime("next sunday", $inicioSiguienteSemana);
+            // Obtener el primer día de la semana siguiente
+            $inicioSiguienteSemana = clone $inicioSemanaActual;
+            $inicioSiguienteSemana->modify('+1 week');
 
-            if (isset($_GET['mes']) && isset($_GET['anio'])) {
-                $mes = (int)$_GET['mes'];
-                $anio = (int)$_GET['anio'];
-            } else {
-                $mes = date('n');
-                $anio = date('Y');
-            }
-            echo "<div class='alreves'>";
-            echo "<div>";
-            echo '<a class="boton" href="?mes=' . ($mes - 1) . '&anio=' . $anio . '"><i class="fa-solid fa-arrow-left"></i></a>';
-            echo '<a class="boton" href="?mes=' . ($mes + 1) . '&anio=' . $anio . '"><i class="fa-solid fa-arrow-right"></i></a>';
-            echo "</div>";
-            mostrarCalendario($mes, $anio);
+            // Crear la tabla del calendario
+            echo '<table>';
+            echo '<tr><th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th><th>Sábado</th><th>Domingo</th></tr>';
 
-            echo "<div class='infoDia'>";
-            if (isset($_GET['dia'])) {
+            // Iterar sobre los días de la semana actual y la siguiente
+            for ($i = 0; $i < 14; $i++) {
 
-                $dia = $_GET['dia'];
+                // Obtener la fecha actual en formato de día, mes y año
+                $fechaActual = $inicioSemanaActual->format('Y-m-d');
+                $dia = $inicioSemanaActual->format('d');
 
-
-                if ($mes < 10 && $dia < 10) {
-                    echo "<h3>Comida para el 0$dia/0$mes/$anio</h3>";
-                } elseif ($mes < 10) {
-                    echo "<h3>Comida para el $dia/0$mes/$anio</h3>";
-                } elseif ($dia < 10) {
-                    echo "<h3>Comida para el 0$dia/$mes/$anio</h3>";
-                } else {
-                    echo "<h3>Comida para el $dia/$mes/$anio</h3>";
-                }
-
-                $fecha_str = sprintf("%02d/%02d/%04d", $dia, $mes, $anio);
-                $fecha = date_create_from_format('d/m/Y', $fecha_str);
-                $fechaFormateada = $fecha->format('Y-m-d');
-
-                $datos = "select comida from menu_diario where fecha='$fechaFormateada'";
+                $datos = "select comida from menu_diario where fecha='$fechaActual'";
 
                 $result = $con->query($datos);
 
@@ -115,73 +93,98 @@
                         ";
                             }
                         }
+
+                        // Comprobar si es el día de hoy
+                        $claseDia = ($inicioSemanaActual->format('Y-m-d') == $hoy->format('Y-m-d')) ? 'hoy' : '';
+
+                        // Imprimir el día en la tabla con la clase correspondiente
+                        echo "<td data-dia=$dia class='$claseDia'></td>";
+
+                        // Avanzar al siguiente día
+                        $inicioSemanaActual->modify('+1 day');
+
+                        // Si es domingo, cerrar la fila de la tabla
+                        if ($i % 7 == 6) {
+                            echo '</tr>';
+                        }
                     }
                 } else {
-                    echo "<p>No hay comida para ese dia</p>";
-                }
-            } else {
-                $hoy = date('j');
-                $mesActual = date('n');
+                    // Comprobar si es el día de hoy
+                    $claseDia = ($inicioSemanaActual->format('Y-m-d') == $hoy->format('Y-m-d')) ? 'hoy' : '';
+                    // Imprimir el día en la tabla con la clase correspondiente
+                    echo "<td data-dia=$dia class='$claseDia'></td>";
 
-                if ($mes == $mesActual) {
-                    echo "<h3>Comida para hoy</h3>";
+                    // Avanzar al siguiente día
+                    $inicioSemanaActual->modify('+1 day');
 
-                    $fecha_str = sprintf("%02d/%02d/%04d", $hoy, $mes, $anio);
-                    $fecha = date_create_from_format('d/m/Y', $fecha_str);
-                    $fechaFormateada = $fecha->format('Y-m-d');
-
-                    $datos = "select comida from menu_diario where fecha='$fechaFormateada'";
-
-                    $result = $con->query($datos);
-
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            $datos = $con->query("select id, nombre, categoria, foto, estado, descripcion from comida where id=$row[comida]");
-
-                            $j = 0;
-                            while ($fila = $datos->fetch_array(MYSQLI_ASSOC)) {
-                                $comida[$j]['id'] = $fila['id'];
-                                $comida[$j]['nombre'] = $fila['nombre'];
-                                $comida[$j]['categoria'] = $fila['categoria'];
-                                $comida[$j]['foto'] = $fila['foto'];
-                                $comida[$j]['estado'] = $fila['estado'];
-                                $comida[$j]['descripcion'] = $fila['descripcion'];
-
-                                $j++;
-                            }
-
-                            if ($j == 0) {
-                                echo "<p>No hay comidas</p>";
-                            } else {
-                                for ($i = 0; $i < $j; $i++) {
-                                    $id = $comida[$i]["id"];
-                                    $nombre = $comida[$i]["nombre"];
-                                    $categoria = $comida[$i]["categoria"];
-                                    $foto = $comida[$i]["foto"];
-                                    $estado = $comida[$i]["estado"];
-                                    $descripcion = $comida[$i]["descripcion"];
-
-                                    echo "
-                                <div class='card $categoria dia'>
-                                    <img src='assets/img/comidas/$foto' class='card-img-top' alt='...'>
-                                    <div class='card-body'>
-                                        <h5 class='card-title'>$nombre</h5>
-                                        <p class='card-text'>$descripcion</p>
-                                    </div>
-                                </div>
-                            ";
-                                }
-                            }
-                        }
-                    } else {
-                        echo "<p>No hay comida para hoy</p>";
+                    // Si es domingo, cerrar la fila de la tabla
+                    if ($i % 7 == 6) {
+                        echo '</tr>';
                     }
                 }
             }
-            echo "<h4>Tiempo de hoy</h4><div class='meteo'>
-            </div>";
+            echo '</table>';
+            echo "<a class='boton' href='index.php?generarSemana=1'>Generar/Modificar semanas</a>";
+            echo "<a class='boton guardar' href='index.php?guardar=1'>Guardar</a>";
 
-            echo "</div>";
+            if (isset($_GET['generarSemana'])) {
+                $datos = $con->query("select id, nombre, categoria, foto, estado from comida");
+
+                $j = 0;
+                echo "<div class='seleccionComidas'>";
+                while ($fila = $datos->fetch_array(MYSQLI_ASSOC)) {
+                    $comida[$j]['id'] = $fila['id'];
+                    $comida[$j]['nombre'] = $fila['nombre'];
+                    $comida[$j]['categoria'] = $fila['categoria'];
+                    $comida[$j]['foto'] = $fila['foto'];
+                    $comida[$j]['estado'] = $fila['estado'];
+
+                    $j++;
+                }
+
+                if ($j == 0) {
+                    echo "<p>No hay comidas</p>";
+                } else {
+                    for ($i = 0; $i < $j; $i++) {
+                        $id = $comida[$i]["id"];
+                        $nombre = $comida[$i]["nombre"];
+                        $categoria = $comida[$i]["categoria"];
+                        $foto = $comida[$i]["foto"];
+                        $estado = $comida[$i]["estado"];
+
+                        echo "
+                            <div class='comida $categoria' id='$id''>
+                                <img src='assets/img/comidas/$foto' class='card-img-top' alt='comida'>
+                                <div class='card-body'>
+                                    <h5 class='card-title'>$nombre</h5>
+                                </div>
+                            </div>";
+                    }
+                }
+                echo "</div>";
+            }
+
+            if (isset($_GET['guardar'])) {
+            }
+
+            var_dump($_POST);
+
+            // Procesar los datos recibidos
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                // Obtener los datos JSON del cuerpo de la solicitud
+                $data = json_decode(file_get_contents("php://input"), true);
+            
+                // Verificar si se pudieron decodificar los datos JSON correctamente
+                if ($data !== null) {
+                    // Aquí puedes procesar los datos recibidos
+                    var_dump($data);
+                } else {
+                    echo "Error al decodificar los datos JSON.";
+                }
+            } else {
+                echo "No se recibieron datos POST.";
+            }
+
             ?>
         </div>
     </main>
