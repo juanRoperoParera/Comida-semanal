@@ -186,20 +186,9 @@ main {
 }
 
 .seleccionComidas .comida {
-    cursor: grab;
-    padding: 10px;
-    margin-bottom: 10px;
-    transition: transform 0.3s ease;
+    
 }
 
-.seleccionComidas .comida:active {
-    transform: scale(1.1);
-}
-
-/* Estilos para el área de destino al soltar */
-.calendario table td.over {
-    background-color: var(--details);
-}
 
 
 

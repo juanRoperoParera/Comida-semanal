@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz@6..12&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="js/app.js" defer></script>
 </head>
 
@@ -154,6 +155,7 @@
 
                         echo "
                             <div class='comida $categoria' id='$id''>
+                                <a class='boton' href=''>+</a>
                                 <img src='assets/img/comidas/$foto' class='card-img-top' alt='comida'>
                                 <div class='card-body'>
                                     <h5 class='card-title'>$nombre</h5>
@@ -167,23 +169,6 @@
             if (isset($_GET['guardar'])) {
             }
 
-            var_dump($_POST);
-
-            // Procesar los datos recibidos
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                // Obtener los datos JSON del cuerpo de la solicitud
-                $data = json_decode(file_get_contents("php://input"), true);
-            
-                // Verificar si se pudieron decodificar los datos JSON correctamente
-                if ($data !== null) {
-                    // Aquí puedes procesar los datos recibidos
-                    var_dump($data);
-                } else {
-                    echo "Error al decodificar los datos JSON.";
-                }
-            } else {
-                echo "No se recibieron datos POST.";
-            }
 
             ?>
         </div>
