@@ -27,7 +27,7 @@
     ?>
     <main>
         <div class="container-xl calendario">
-            <h1>CALENDARIO</h1>
+            <h1>Planificacion de dietas</h1>
             <?php
 
             // Obtener la fecha de hoy
@@ -83,14 +83,16 @@
                                 $estado = $comida[$i]["estado"];
                                 $descripcion = $comida[$i]["descripcion"];
 
+                                $descripcionCorta = trim(substr($descripcion, 0, 75)). "...";
                                 echo "
-                            <div class='card $categoria dia'>
-                                <img src='assets/img/comidas/$foto' class='card-img-top' alt='...'>
-                                <div class='card-body'>
-                                    <h5 class='card-title'>$nombre</h5>
-                                    <p class='card-text'>$descripcion</p>
-                                </div>
-                            </div>
+                                <td>
+                                    <div class='comida $categoria'>
+                                        <img src='assets/img/comidas/$foto' class='card-img-top' alt='...'>
+                                        <div class='card-body'>
+                                            <p class='card-text'>$descripcionCorta <a class='' href=''>Ver más</a></p>
+                                        </div>
+                                    </div>
+                                </td>
                         ";
                             }
                         }
@@ -99,7 +101,6 @@
                         $claseDia = ($inicioSemanaActual->format('Y-m-d') == $hoy->format('Y-m-d')) ? 'hoy' : '';
 
                         // Imprimir el día en la tabla con la clase correspondiente
-                        echo "<td data-dia=$dia class='$claseDia'></td>";
 
                         // Avanzar al siguiente día
                         $inicioSemanaActual->modify('+1 day');
@@ -113,7 +114,7 @@
                     // Comprobar si es el día de hoy
                     $claseDia = ($inicioSemanaActual->format('Y-m-d') == $hoy->format('Y-m-d')) ? 'hoy' : '';
                     // Imprimir el día en la tabla con la clase correspondiente
-                    echo "<td data-dia=$dia class='$claseDia'></td>";
+                    /* echo "<td data-dia=$dia class='$claseDia'></td>"; */
 
                     // Avanzar al siguiente día
                     $inicioSemanaActual->modify('+1 day');
@@ -155,7 +156,7 @@
 
                         echo "
                             <div class='comida $categoria' id='$id''>
-                                <a class='boton' href=''>+</a>
+                                <a class='boton' href='php/gestioncomidas/añadirdieta.php?idComida=$id&dia=$'>+</a>
                                 <img src='assets/img/comidas/$foto' class='card-img-top' alt='comida'>
                                 <div class='card-body'>
                                     <h5 class='card-title'>$nombre</h5>
