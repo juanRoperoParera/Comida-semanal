@@ -19,12 +19,28 @@
     <?php
     require_once("../../bd/bd.php");
     require_once("../funciones.php");
-    $con = conectar::conexion();
+    $conexion = conectar::conexion();
 
+    $dia = $_GET[('dia')];
+    $mes = $_GET[('mes')];
+    $ano = $_GET[('ano')];
+    $id = $_GET[('idComida')];
     nav();
+
+    $fechaFormateada = "$ano-$mes-$dia";
+    echo "$fechaFormateada";
+
+    $consulta = $conexion->prepare("INSERT INTO `menu_diario` (`?`, `?`)");
+    $consulta = $conexion->prepare("INSERT INTO `menu_diario` (`nombre_columna1`, `nombre_columna2`) VALUES (?, ?)");
+
+    $consulta->bind_Param("si",$fechaFormateada, $id);
+
+    $consulta->execute();
+
+    /* header("refresh:0;url=../../index.php"); */
     ?>
     <main>
-<!-- INSERT INTO `menu_diario` (`fecha`, `comida`) VALUES ('2024-03-17', '20'); -->
+    
     </main>
     <?php
     footer();

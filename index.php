@@ -42,7 +42,7 @@
 
             // Crear la tabla del calendario
             echo '<table>';
-            echo '<tr><th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th><th>Sábado</th><th>Domingo</th></tr>';
+            echo '<tr><th>Lunes</th><th>Martes</th><th>Miercoles</th><th>Jueves</th><th>Viernes</th><th>Sabado</th><th>Domingo</th></tr>';
 
             // Iterar sobre los días de la semana actual y la siguiente
             for ($i = 0; $i < 14; $i++) {
@@ -96,12 +96,13 @@
                         ";
                             }
                         }
+                        $primerDiaSinComida = $dia+1;
+                        $i-=1;  
 
                         // Comprobar si es el día de hoy
                         $claseDia = ($inicioSemanaActual->format('Y-m-d') == $hoy->format('Y-m-d')) ? 'hoy' : '';
 
-                        // Imprimir el día en la tabla con la clase correspondiente
-
+                        // Imprimir el día en la tabla con la clase correspondientes
                         // Avanzar al siguiente día
                         $inicioSemanaActual->modify('+1 day');
 
@@ -114,8 +115,15 @@
                     // Comprobar si es el día de hoy
                     $claseDia = ($inicioSemanaActual->format('Y-m-d') == $hoy->format('Y-m-d')) ? 'hoy' : '';
                     // Imprimir el día en la tabla con la clase correspondiente
-                    /* echo "<td data-dia=$dia class='$claseDia'></td>"; */
+                    if($dia == $primerDiaSinComida){
+                        echo "<td><a class='' href='index.php?generarSemana=1#1'>+</a></td>";
 
+                        $mesSinComida = $inicioSemanaActual->format('m');
+                        $anoSinComida = $inicioSemanaActual->format('Y');
+                    }else{
+                        echo "<td></td>";
+                    }
+                    
                     // Avanzar al siguiente día
                     $inicioSemanaActual->modify('+1 day');
 
@@ -126,14 +134,14 @@
                 }
             }
             echo '</table>';
-            echo "<a class='boton' href='index.php?generarSemana=1'>Generar/Modificar semanas</a>";
+            echo "<a class='boton' href='index.php?generarSemana=1#1'>Generar/Modificar semanas</a>";
             echo "<a class='boton guardar' href='index.php?guardar=1'>Guardar</a>";
 
             if (isset($_GET['generarSemana'])) {
                 $datos = $con->query("select id, nombre, categoria, foto, estado from comida");
 
                 $j = 0;
-                echo "<div class='seleccionComidas'>";
+                echo "<div class='seleccionComidas' id='1'>";
                 while ($fila = $datos->fetch_array(MYSQLI_ASSOC)) {
                     $comida[$j]['id'] = $fila['id'];
                     $comida[$j]['nombre'] = $fila['nombre'];
@@ -156,7 +164,7 @@
 
                         echo "
                             <div class='comida $categoria' id='$id''>
-                                <a class='boton' href='php/gestioncomidas/añadirdieta.php?idComida=$id&dia=$'>+</a>
+                                <a class='boton' href='php/gestioncomidas/añadirdieta.php?idComida=$id&dia=$primerDiaSinComida&mes=$mesSinComida&ano=$anoSinComida'>+</a>
                                 <img src='assets/img/comidas/$foto' class='card-img-top' alt='comida'>
                                 <div class='card-body'>
                                     <h5 class='card-title'>$nombre</h5>
