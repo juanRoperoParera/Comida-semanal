@@ -11,9 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz@6..12&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script type="text/javascript" src="js/app.js" defer></script>
 </head>
 
@@ -30,8 +29,6 @@
             <h1>Planificacion de dietas</h1>
             <p>* Selecciona un dia para añadir la comida</p>
             <?php
-
-
             // Obtener la fecha de hoy
             setlocale(LC_TIME, 'spanish');
             $hoy = new DateTime();
@@ -155,6 +152,7 @@
             echo '</table>';
 
             if ($comidas < 14 && isset($_GET['generarSemana'])) {
+                echo "<p>* Selecciona una comida</p>";
                 $datos = $con->query("select id, nombre, categoria, foto, estado from comida");
 
                 $j = 0;
@@ -184,15 +182,15 @@
                         }
                         echo "
                             <div class='comida $categoria' id='$id''>";
-                            if(isset($diaAñadir)){
-                                echo "<a class='boton' href='php/gestioncomidas/añadirdieta.php?idComida=$id&dia=$diaAñadir&mes=$mesAñadir&ano=$anoAñadir'>+</a>";
-                            }
                             echo "
                                 <img src='assets/img/comidas/$foto' class='card-img-top' alt='comida'>
                                 <div class='card-body'>
                                     <h5 class='card-title'>$nombre</h5>
-                                </div>
-                            </div>";
+                                </div>";
+                            if(isset($diaAñadir)){
+                                echo "<a class='boton' href='php/gestioncomidas/añadirdieta.php?idComida=$id&dia=$diaAñadir&mes=$mesAñadir&ano=$anoAñadir'>+</a>";
+                            }    
+                            echo "</div>";
                     }
                 }
                 echo "</div>";

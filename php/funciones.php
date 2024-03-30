@@ -7,8 +7,9 @@ function navIndex()
     <input class='menu-btn' type='checkbox' id='menu-btn' />
     <label class='menu-icon' for='menu-btn'><span class='navicon'></span></label>
     <ul class='menu'>
-        <li><a href='#'>CALENDARIO</a></li>
-        <li><a href='php/gestioncomidas/gestioncomidas.php'>COMIDAS</a></li>
+        <li><a href='#'>Calendario</a></li>
+        <li><a href='php/gestioncomidas/gestioncomidas.php'>Comidas</a></li>
+        <li><a href=''>Acceder <i class='fa-solid fa-right-to-bracket'></i></a></li>
     </ul>
 </header>";
 }
@@ -19,8 +20,8 @@ function nav()
     <input class='menu-btn' type='checkbox' id='menu-btn' />
     <label class='menu-icon' for='menu-btn'><span class='navicon'></span></label>
     <ul class='menu'>
-        <li><a href='../../index.php'>CALENDARIO</a></li>
-        <li><a href='#'>COMIDAS</a></li>
+        <li><a href='../../index.php'>Calendario</a></li>
+        <li><a href='#'>Comidas</a></li>
     </ul>
 </header>";
 }
