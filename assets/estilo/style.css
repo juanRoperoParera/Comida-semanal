@@ -237,7 +237,7 @@ main {
     padding-top: 8rem;
 }
 
-.calendario h1 {
+.calendario h1, .calendario h2 {
     width: fit-content;
     margin-bottom: 2rem;
     padding: 0.5rem;
@@ -246,6 +246,10 @@ main {
 
 .calendario h2 {
     margin-top: 1rem;
+}
+
+.calendario p{
+    text-align: left;
 }
 
 .calendario table {
@@ -296,8 +300,24 @@ main {
     background-color: var(--main2);
 }
 
+.calendario table td a.añadir{
+    font-size: 3.5rem;
+    padding: 0.5rem;
+    color: var(--details2);
+    border-radius: 20%;
+    transition: 0.5s ease;
+    opacity: .25;
+}
+
+.calendario table td a.añadir.seleccionado{
+    background-color: var(--detailslight);
+    opacity: 1;
+    transition: 0.5s ease;
+}
+
 .calendario table td .comida{
     height: 100%;
+    position:relative;
 }
 
 .calendario table td img{
@@ -322,7 +342,34 @@ main {
     color: var(--details2);
     font-style: italic;
     font-weight: bold;
+} 
+
+.calendario table td a.cerrar{
+    top:5px;
+    right:5px;
+    width:25px;
+    height:25px;
+    position:absolute;
+    background-color: var(--main2);
+    color: red;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .5s ease;
+    display: none;
 }
+
+.calendario table td a.cerrar:hover{
+    opacity: 1;
+    transition: .5s ease;
+}
+
+.calendario table td:hover a.cerrar{
+    display: flex;
+    transition: .5s ease;
+}
+
 
 
 
@@ -376,7 +423,7 @@ main {
 footer {
     text-align: center;
     padding: 1rem 1rem 1rem 1rem;
-    background-color: var(--details2);
+    background-color: var(--main2);
     color: var(--main2);
 }
 

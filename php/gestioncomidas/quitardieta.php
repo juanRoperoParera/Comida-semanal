@@ -29,13 +29,11 @@
 
     $fechaFormateada = "$ano-$mes-$dia";
 
-    $consulta = $conexion->prepare("INSERT INTO `menu_diario` (`fecha`, `comida`) VALUES (?, ?)");
+    $consulta = $conexion->prepare("DELETE FROM `menu_diario` WHERE fecha = ? and comida = ?");
 
     $consulta->bind_Param("si",$fechaFormateada, $id);
 
     $consulta->execute();
-
-    $dia ++;
 
     header("refresh:0;url=../../index.php?generarSemana=1");
     ?>
