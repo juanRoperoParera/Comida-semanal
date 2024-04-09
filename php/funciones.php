@@ -9,7 +9,7 @@ function navIndex()
     <ul class='menu'>
         <li><a href='#'>Calendario</a></li>
         <li><a href='php/gestioncomidas/gestioncomidas.php'>Comidas</a></li>
-        <li><a href=''>Acceder <i class='fa-solid fa-right-to-bracket'></i></a></li>
+        <li><a href='php/sesion/inicioSesion.php'>Acceder <i class='fa-solid fa-right-to-bracket'></i></a></li>
     </ul>
 </header>";
 }

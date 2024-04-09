@@ -7,6 +7,7 @@
     --details2: #294c24;
     --detailslight: #FFD700;
     --text: #1A1A1A;
+    --alerta: rgb(110, 1, 1);
 }
 
 *{
@@ -189,6 +190,47 @@ main {
     
 }
 
+form.introducirCodigo input[type="number"], form.introducirCodigo input[type="submit"]{
+    border: 0px;
+    padding: 0.5rem;
+}
+
+form.introducirCodigo input[type="submit"]{
+    background-color: var(--details2);
+    border-radius: 0px 10px 10px 0px;
+    color: var(--main);
+}
+
+form.introducirCodigo input[type="number"]{
+    background-color: var(--main2);
+    border-radius: 10px 0px 0px 10px;
+}
+
+form.introducirCodigo input[type="number"]:focus{
+    outline: none;  
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+  }
+  
+  /* Opcional: para otros navegadores que soporten la propiedad appearance */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* Eliminar margen */
+  }
+
+  .calendario p.alerta{
+    text-align:center;
+    background-color: var(--alerta);
+    border-radius: 10px;
+    width: fit-content;
+    margin: auto;
+    color: var(--main);
+    margin-top: 2rem;
+    padding: 0.5rem;
+  }
 
 
 
