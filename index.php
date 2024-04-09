@@ -29,7 +29,8 @@
             <h1>Planificacion de dietas</h1>
             <?php
 
-            if (isset($_GET['codigo']) && $_GET['codigo']!=='') {
+            if (isset($_GET['codigo']) && $_GET['codigo']!=='' or 0==0) {
+                echo "<p>* Selecciona un dia</p>";
                 // Obtener la fecha de hoy
                 setlocale(LC_TIME, 'spanish');
                 $hoy = new DateTime();
@@ -187,11 +188,13 @@
                                 <img src='assets/img/comidas/$foto' class='card-img-top' alt='comida'>
                                 <div class='card-body'>
                                     <h5 class='card-title'>$nombre</h5>
-                                </div>";
+                               ";
                             if (isset($diaAñadir)) {
-                                echo "<a class='boton' href='php/gestioncomidas/añadirdieta.php?idComida=$id&dia=$diaAñadir&mes=$mesAñadir&ano=$anoAñadir'>+</a>";
+                                echo "<a class='añadirComida' href='php/gestioncomidas/añadirdieta.php?idComida=$id&dia=$diaAñadir&mes=$mesAñadir&ano=$anoAñadir'>+</a>";
                             }
-                            echo "</div>";
+                            echo "<a class='verMas' href='' >Ver mas</a> 
+                                </div>
+                            </div>";
                         }
                     }
                     echo "</div>";

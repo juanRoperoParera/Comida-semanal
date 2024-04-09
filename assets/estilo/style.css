@@ -184,10 +184,26 @@ main {
 .seleccionComidas{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
 }
 
 .seleccionComidas .comida {
-    
+    border-radius: 10px;
+}    
+.seleccionComidas .comida .card-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}   
+
+.seleccionComidas .comida .añadirComida{
+    text-decoration: none;
+    color: var(--main);
+    background-color: var(--details2);
+    padding: 0.15rem;
+    border-radius: 25%;
+    width: 10%;
+    margin: 0.5rem auto 0.5rem auto;
 }
 
 form.introducirCodigo input[type="number"], form.introducirCodigo input[type="submit"]{
