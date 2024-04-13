@@ -206,6 +206,25 @@ main {
     margin: 0.5rem auto 0.5rem auto;
 }
 
+.seleccionComidas .comida .enlaces{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.seleccionComidas .comida .enlaces a{
+    background-color: var(--details2);
+    color: var(--main);
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin: 0rem 0.25rem;
+}
+
+.seleccionComidas .comida .enlaces a.verMas{
+    background-color: var(--details1);
+}
+
 form.introducirCodigo input[type="number"], form.introducirCodigo input[type="submit"]{
     border: 0px;
     padding: 0.5rem;
@@ -429,6 +448,32 @@ input[type="number"] {
 }
 
 
+/* Ver comidas completas */
+.verComida img{
+    height: 300px;
+    object-fit: cover;
+}
+
+.verComida .card-tittle, .verComida .card-body{
+    padding: 1rem;
+}
+
+.verComida .card-tittle{
+    width: 100%;
+    text-align: center;
+}
+
+.verComida .card-body{
+    width: 70%;
+    margin: auto;
+    padding-top: 3.5rem;
+    background-color: var(--main2);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.verComida .card-tittle h2{
+    font-size: 2rem;
+}
 
 
 
