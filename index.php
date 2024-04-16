@@ -191,7 +191,7 @@
                                     <div class='enlaces'>
                                ";
                             if (isset($diaAñadir)) {
-                                echo "<a class='' href='php/gestioncomidas/añadirdieta.php?idComida=$id&dia=$diaAñadir&mes=$mesAñadir&ano=$anoAñadir'>+</a>";
+                                echo "<a class='' href='php/gestioncomidas/añadirdieta.php?idComida=$id&dia=$diaAñadir&mes=$mesAñadir&ano=$anoAñadir'>Añadir</a>";
                             }
                             echo "<a class='verMas' href='php/gestioncomidas/verComida.php?idComida=$id' >Ver mas</a> 
                                     </div>
