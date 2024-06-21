@@ -225,7 +225,7 @@ main {
     background-color: var(--details1);
 }
 
-form.introducirCodigo input[type="text"], form.introducirCodigo input[type="submit"]{
+form.introducirCodigo input[type="text"], form.introducirCodigo input[type="password"], form.introducirCodigo input[type="submit"]{
     border: 0px;
     padding: 0.5rem;
 }
@@ -236,22 +236,27 @@ form.introducirCodigo input[type="submit"]{
     color: var(--main);
 }
 
-form.introducirCodigo input[type="text"]{
+form.introducirCodigo input[type="text"], form.introducirCodigo input[type="password"]{
     background-color: var(--main2);
+}
+
+form.introducirCodigo input[type="text"]{
     border-radius: 10px 0px 0px 10px;
 }
 
-form.introducirCodigo input[type="text"]:focus{
+form.introducirCodigo input[type="text"]:focus, form.introducirCodigo input[type="password"]:focus{
     outline: none;  
 }
 
-input[type="text"] {
+input[type="text"],  input[type="password"]{
     -moz-appearance: textfield; /* Firefox */
   }
   
   /* Opcional: para otros navegadores que soporten la propiedad appearance */
   input[type="text"]::-webkit-outer-spin-button,
-  input[type="text"]::-webkit-inner-spin-button {
+  input[type="text"]::-webkit-inner-spin-button,
+  input[type="password"]::-webkit-outer-spin-button,
+  input[type="password"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; /* Eliminar margen */
   }
@@ -469,6 +474,7 @@ input[type="text"] {
     padding-top: 3.5rem;
     background-color: var(--main2);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 0px 0px 10px 10px;
 }
 
 .verComida .card-tittle h2{
@@ -526,8 +532,8 @@ input[type="text"] {
 footer {
     text-align: center;
     padding: 1rem 1rem 1rem 1rem;
-    background-color: var(--main2);
-    color: var(--main2);
+    background-color: var(--main);
+    color: var(--details2);
 }
 
 footer p {
@@ -535,43 +541,90 @@ footer p {
     font-size: 0.75rem;
 }
 
+.mobile{
+    display: none;
+}
+
 @media(max-width: 900px) {
+
+    .calendario h1{
+        width: auto;
+    }
+
+    .header{
+        width: 90%;
+    }
+
     .comidas {
         grid-template-columns: 1fr 1fr 1fr;
     }
-    .infoDia .meteo ul li {
-        font-size: 1.2rem;
-    }
-    .infoDia .card{
-        grid-column: 1/-1;
+
+    .pc{
+        display: none;
     }
 
-    .infoDia h3{
-        grid-column: 1/-1;
-        text-align: center;
+    .mobile{
+        display: block;
     }
 
-    .infoDia h4{
-        grid-row: 3/4;
-        grid-column: 1/-1;
-        text-align: center;
+    table.mobile{
+        background-color: transparent;
     }
 
-    .infoDia .meteo{
-        grid-column: 1/-1;
+    .calendario table td{
+        height: auto;
+        background-color: transparent;
     }
 
-    .infoDia .meteo ul li.lluvia,.infoDia .meteo ul li.text {
-        margin-top: 0.7rem;
+    .calendario table td a.añadir{
+        font-size: 2rem;
     }
 
-    .infoDia .meteo ul li.text{
-        font-size: 0.8rem;
+    .calendario table tr td{
+        padding: 0px;
+    }
+
+    .calendario table tr.nombredia>td{
+        background-color: transparent;
+        color: var(--main);
+        letter-spacing: 0.1rem;
+        border-radius: 10px 10px 0px 0px;   
+        padding: 0.25rem;
+    }
+
+   
+
+    .calendario table>tbody>tr:first-child{
+        background-color: var(--details2);
+    }
+
+    tr.nombredia{
+       font-weight: bold;
+        background-color: var(--details2);
+        
+    }
+    
+    tr.marcado.nombredia{
+        background-color: var(--detailslight);
+       
+    }
+
+    .calendario table tr.nombredia.marcado>td{
+        color: var(--text); 
+    }
+
+    .verComida .card-body{
+        width: 90%;
+    }
+
+    .seleccionComidas{
+        grid-template-columns: 1fr 1fr;
     }
 }
 
-@media(max-width: 540px) {
+@media(max-width: 560px) {
     .calendario {
+        padding: 0.5rem;
         padding-top: 6rem;
     }
 
@@ -605,5 +658,28 @@ footer p {
 
     .comidas {
         grid-template-columns: 1fr 1fr;
+    }
+
+    form.introducirCodigo input[type="text"]{
+        width: 95%;
+        border-radius: 10px;
+        margin-bottom: 0.5rem;
+    }
+
+    form.introducirCodigo input[type="password"]{
+        border-radius: 10px 0px 0px 10px;
+        width: 70%;
+    }
+
+    form.introducirCodigo input[type="submit"]{
+        width: 25%;
+    }
+
+    .calendario table td a.añadir{
+        font-size: 1.5rem;
+    }
+
+    .seleccionComidas{
+        grid-template-columns: 1fr ;
     }
 }

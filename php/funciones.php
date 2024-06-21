@@ -20,7 +20,7 @@ function nav()
     <label class='menu-icon' for='menu-btn'><span class='navicon'></span></label>
     <ul class='menu'>
         <li><a href='../../index.php'>Calendario</a></li>
-        <li><a href='#'>Comidas</a></li>
+        <li><a href='gestioncomidas.php'>Comidas</a></li>
     </ul>
 </header>";
 }

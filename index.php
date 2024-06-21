@@ -27,7 +27,7 @@
     ?>
     <main>
         <div class="container-xl calendario">
-            <h1>Planificacion de dietas</h1>
+            <h1>Planificacion de dieta</h1>
             <?php
 
             if (isset($_GET['codigo']) && $_GET['codigo'] !== '') {
@@ -55,25 +55,21 @@
                             if(isset($_GET['pass'])){
                                 $pass = $_GET['pass']; 
                                 if($pass == $contraseña){
-                                    echo "codigo correcto contraseña correcta (admin)";
                                     $continuar = true;
                                     $admin = true;
                                     $_SESSION['admin'] = $admin;
 
                                 }else{
-                                    echo "codigo correcto contraseña incorrecta (admin)";
                                     $continuar = true;
                                     $admin = false;
                                 }
                             }else{
                                 $continuar = true;
                                 $admin = false;
-                                echo "codigo correcto";
                             }
                             $k = $j+1;                
                         }
                         if($k == $j -1){
-                            echo "codigo incorrecto";
                             $continuar = false;
                         }        
                     }
@@ -95,7 +91,7 @@
                     $inicioSiguienteSemana->modify('+1 week');
     
                     // Crear la tabla del calendario
-                    echo '<table>';
+                    echo '<table class="pc">';
                     echo '<tr><th>Lunes</th><th>Martes</th><th>Miercoles</th><th>Jueves</th><th>Viernes</th><th>Sabado</th><th>Domingo</th></tr>';
     
                     // Iterar sobre los días de la semana actual y la siguiente
@@ -213,6 +209,183 @@
                         }
                     }
                     echo '</table>';
+
+                    /* VERSION MOBILE */
+
+                    // Obtener la fecha de hoy
+                    setlocale(LC_TIME, 'spanish');
+                    $hoy = new DateTime();
+    
+                    // Obtener el primer día de la semana actual
+                    $inicioSemanaActual = new DateTime('monday this week');
+    
+                    $inicioSiguienteSemana = clone $inicioSemanaActual;
+                    $inicioSiguienteSemana->modify('+1 week');
+
+                    echo "<table class='mobile'>";
+                    // Iterar sobre los días de la semana actual y la siguiente
+                    $comidas = 0;
+                    for ($i = 0; $i < 14; $i++) {
+    
+                        // Obtener la fecha actual en formato de día, mes y año
+                        $fechaActual = $inicioSemanaActual->format('Y-m-d');
+                        $dia = $inicioSemanaActual->format('d');
+                        $mes = $inicioSemanaActual->format('m');
+                        $ano = $inicioSemanaActual->format('Y');
+    
+                        if ($i == 0) {
+                            $dias_en_mes = cal_days_in_month(CAL_GREGORIAN, $mes, $ano);
+                        }
+    
+                        if ($i == 0) {
+                            $primerDiaSinComida = $dia;
+                        }
+    
+                        $datos = "select comida from menu_diario where fecha='$fechaActual' and menu='$codigo'";
+    
+                        $result = $con->query($datos);
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+    
+                                $datos = $con->query("select id, nombre, categoria, foto, estado, descripcion from comida where id=$row[comida]");
+    
+                                $j = 0;
+                                while ($fila = $datos->fetch_array(MYSQLI_ASSOC)) {
+                                    $comida[$j]['id'] = $fila['id'];
+                                    $comida[$j]['nombre'] = $fila['nombre'];
+                                    $comida[$j]['categoria'] = $fila['categoria'];
+                                    $comida[$j]['foto'] = $fila['foto'];
+                                    $comida[$j]['estado'] = $fila['estado'];
+                                    $comida[$j]['descripcion'] = $fila['descripcion'];
+    
+                                    $j++;
+                                }
+    
+                                if ($j == 0) {
+                                    echo "<p>No hay comidas</p>";
+                                } else {
+                                    for ($k = 0; $k < $j; $k++) {
+                                        $id = $comida[$k]["id"];
+                                        $nombre = $comida[$k]["nombre"];
+                                        $categoria = $comida[$k]["categoria"];
+                                        $foto = $comida[$k]["foto"];
+                                        $estado = $comida[$k]["estado"];
+                                        $descripcion = $comida[$k]["descripcion"];
+    
+                                        $descripcionCorta = trim(substr($descripcion, 0, 75)) . "...";
+
+                                        $fechaNombreDia = new DateTime("$ano-$mes-$dia");
+                                        $nombreDiaIngles = $fechaNombreDia->format('l');
+                                        $diasSemana = [
+                                            'Monday' => 'Lunes',
+                                            'Tuesday' => 'Martes',
+                                            'Wednesday' => 'Miércoles',
+                                            'Thursday' => 'Jueves',
+                                            'Friday' => 'Viernes',
+                                            'Saturday' => 'Sábado',
+                                            'Sunday' => 'Domingo'
+                                        ];
+
+                                        $nombreDiaEspanol = $diasSemana[$nombreDiaIngles];
+
+                                        if($hoy->format('Y-m-d') === $fechaNombreDia->format('Y-m-d')){
+                                            echo "<tr class='nombredia marcado'>
+                                                    <td>$nombreDiaEspanol</td>
+                                                </tr>";
+                                        }else{
+                                            echo "<tr class='nombredia'>
+                                                <td>$nombreDiaEspanol</td>
+                                            </tr>"; 
+                                        }
+                                        echo "
+                                        <tr>
+                                    <td>
+                                        <div class='comida $categoria'>";
+                                        if(isset($_SESSION['admin'])){
+                                            echo "<a href='php/gestioncomidas/quitardieta.php?idComida=$id&dia=$dia&mes=$mes&ano=$ano&codigo=$codigo' class='cerrar'>X</a>";
+                                        }
+                                        echo "
+                                            <img src='assets/img/comidas/$foto' class='card-img-top' alt='...'> 
+                                            <i>$dia / $mes / $ano</i>
+                                            <div class='card-body'>
+                                                <p class='card-text'>$descripcionCorta<a class='' href='php/gestioncomidas/verComida.php?idComida=$id'>Ver más</a></p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    </tr>
+                            ";
+                                    }
+                                    $comidas++;
+                                }
+                                $primerDiaSinComida = $dia + 1;
+    
+                                // Avanzar al siguiente día
+                                $inicioSemanaActual->modify('+1 day');
+    
+                                // Si es domingo, cerrar la fila de la tabla
+                                if ($i % 7 == 6) {
+                                    echo '</tr>';
+                                }
+                            }
+                        } else {
+                            // Imprimir el día en la tabla con la clase correspondiente
+    
+                            /*                     if (isset($primerDiaSinComida) && $dia == $primerDiaSinComida) { */
+
+                            $fechaNombreDia = new DateTime("$ano-$mes-$dia");
+                                $nombreDiaIngles = $fechaNombreDia->format('l');
+                                $diasSemana = [
+                                    'Monday' => 'Lunes',
+                                    'Tuesday' => 'Martes',
+                                    'Wednesday' => 'Miércoles',
+                                    'Thursday' => 'Jueves',
+                                    'Friday' => 'Viernes',
+                                    'Saturday' => 'Sábado',
+                                    'Sunday' => 'Domingo'
+                                ];
+
+                            $nombreDiaEspanol = $diasSemana[$nombreDiaIngles];
+                            if($hoy->format('Y-m-d') === $fechaNombreDia->format('Y-m-d')){
+                                echo "<tr class='nombredia marcado'>
+                                        <td>$nombreDiaEspanol</td>
+                                    </tr>";
+                            }else{
+                                echo "<tr class='nombredia'>
+                                    <td>$nombreDiaEspanol</td>
+                                </tr>"; 
+                            }
+                            if(isset($_SESSION['admin'])){
+                                if (isset($_GET['seleccionado'])) {
+                                    if ($_GET[('dia')] == $dia && $_GET[('mes')] == $mes && $_GET[('ano')] == $ano) {
+                                        $diaAñadir = $_GET[('dia')];
+                                        $mesAñadir = $_GET[('mes')];
+                                        $anoAñadir = $_GET[('ano')];
+                                        echo "<td><a class='añadir seleccionado' href='index.php?generarSemana=1&seleccionado=1&dia=$dia&mes=$mes&ano=$ano'>+</a></td>";
+                                    } else {
+                                        echo "<td><a class='añadir' href='index.php?generarSemana=1&seleccionado=1&dia=$dia&mes=$mes&ano=$ano&codigo=$codigo'>+</a></td>";
+                                    }
+                                } else {
+                                    echo "<td><a class='añadir' href='index.php?generarSemana=1&seleccionado=1&dia=$dia&mes=$mes&ano=$ano&codigo=$codigo'>+</a></td>";
+                                }
+                            }else{
+                                echo "<td colspan='2'><a class='añadir'><i>$dia / $mes / $ano (VACIO)</i></a></td>";
+                            }
+                            
+    
+                            /*  } else {
+                            echo "<td></td>";
+                        } */
+    
+                            // Avanzar al siguiente día
+                            $inicioSemanaActual->modify('+1 day');
+    
+                            // Si es domingo, cerrar la fila de la tabla
+                            if ($i % 7 == 6) {
+                                echo '</tr>';
+                            }
+                        }
+                    }
+                    echo "</table>";
     
                     if ($comidas < 14 && isset($_GET['generarSemana'])) {
                         echo "<p>* Selecciona una comida</p>";
@@ -269,9 +442,8 @@
                 echo "<p>* Introduce el codigo del menu semanal</p>";
                 echo "<form class='introducirCodigo' action='#' method='GET'>
                     <input type='text' name='codigo' placeholder='EJ: 45324'> 
-                    <input type='submit' name='buscar' value='Buscar'>
-                    <br>
-                    <input type='password' name='pass' placeholder='contraseña (opcional)'>
+                    <input type='password' name='pass' placeholder='Contraseña (opcional)'>
+                    <input type='submit' name='buscar' value='Buscar'>                    
                 </form>";
                 if(isset($_GET['codigo']) && $_GET['codigo'] == ''){
                     echo "<p class='alerta'><i class='fa-solid fa-triangle-exclamation'></i> Por favor, introduce un código para continuar.</p>";
