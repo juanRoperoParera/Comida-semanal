@@ -25,19 +25,20 @@
     $mes = $_GET[('mes')];
     $ano = $_GET[('ano')];
     $id = $_GET[('idComida')];
+    $codigo = $_GET['codigo'];
     nav();
 
     $fechaFormateada = "$ano-$mes-$dia";
 
-    $consulta = $conexion->prepare("INSERT INTO `menu_diario` (`fecha`, `comida`) VALUES (?, ?)");
+    $consulta = $conexion->prepare("INSERT INTO `menu_diario` (`menu`, `fecha`, `comida`) VALUES (?, ?, ?)");
 
-    $consulta->bind_Param("si",$fechaFormateada, $id);
+    $consulta->bind_Param("ssi",$codigo, $fechaFormateada, $id);
 
     $consulta->execute();
 
     $dia ++;
 
-    header("refresh:0;url=../../index.php?generarSemana=1");
+    header("refresh:0;url=../../index.php?generarsemana=1&codigo=$codigo");
     ?>
     <main>
     

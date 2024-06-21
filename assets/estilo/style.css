@@ -225,7 +225,7 @@ main {
     background-color: var(--details1);
 }
 
-form.introducirCodigo input[type="number"], form.introducirCodigo input[type="submit"]{
+form.introducirCodigo input[type="text"], form.introducirCodigo input[type="submit"]{
     border: 0px;
     padding: 0.5rem;
 }
@@ -236,22 +236,22 @@ form.introducirCodigo input[type="submit"]{
     color: var(--main);
 }
 
-form.introducirCodigo input[type="number"]{
+form.introducirCodigo input[type="text"]{
     background-color: var(--main2);
     border-radius: 10px 0px 0px 10px;
 }
 
-form.introducirCodigo input[type="number"]:focus{
+form.introducirCodigo input[type="text"]:focus{
     outline: none;  
 }
 
-input[type="number"] {
+input[type="text"] {
     -moz-appearance: textfield; /* Firefox */
   }
   
   /* Opcional: para otros navegadores que soporten la propiedad appearance */
-  input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button {
+  input[type="text"]::-webkit-outer-spin-button,
+  input[type="text"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; /* Eliminar margen */
   }

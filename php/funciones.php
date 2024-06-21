@@ -3,13 +3,12 @@
 function navIndex()
 {
     echo "<header class='header'>
-    <a href='#' class='logo'><img src='assets/img/logo.png' alt='logo'></a>
+    <a href='index.php' class='logo'><img src='assets/img/logo.png' alt='logo'></a>
     <input class='menu-btn' type='checkbox' id='menu-btn' />
     <label class='menu-icon' for='menu-btn'><span class='navicon'></span></label>
     <ul class='menu'>
         <li><a href='#'>Calendario</a></li>
         <li><a href='php/gestioncomidas/gestioncomidas.php'>Comidas</a></li>
-        <li><a href='php/sesion/inicioSesion.php'>Acceder <i class='fa-solid fa-right-to-bracket'></i></a></li>
     </ul>
 </header>";
 }

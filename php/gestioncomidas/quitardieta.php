@@ -25,17 +25,18 @@
     $mes = $_GET[('mes')];
     $ano = $_GET[('ano')];
     $id = $_GET[('idComida')];
+    $codigo = $_GET['codigo'];
     nav();
 
     $fechaFormateada = "$ano-$mes-$dia";
 
-    $consulta = $conexion->prepare("DELETE FROM `menu_diario` WHERE fecha = ? and comida = ?");
+    $consulta = $conexion->prepare("DELETE FROM `menu_diario` WHERE menu = ? and  fecha = ? and comida = ?");
 
-    $consulta->bind_Param("si",$fechaFormateada, $id);
+    $consulta->bind_Param("ssi",$codigo, $fechaFormateada, $id);
 
     $consulta->execute();
 
-    header("refresh:0;url=../../index.php?generarSemana=1");
+    header("refresh:0;url=../../index.php?generarSemana=1&codigo=$codigo");
     ?>
     <main>
     
