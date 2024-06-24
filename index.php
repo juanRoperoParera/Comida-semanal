@@ -27,7 +27,7 @@
     ?>
     <main>
         <div class="container-xl calendario">
-            <h1>Planificacion de dieta</h1>
+            <h1>Planificación de dieta</h1>
             <?php
 
             if (isset($_GET['codigo']) && $_GET['codigo'] !== '') {
@@ -53,7 +53,9 @@
 
                         if($id == $codigo){
                             if(isset($_GET['pass'])){
-                                $pass = $_GET['pass']; 
+                                $passSinCodificar = $_GET['pass']; 
+                                $pass = trim(md5(md5($passSinCodificar)));
+
                                 if($pass == $contraseña){
                                     $continuar = true;
                                     $admin = true;
@@ -70,12 +72,14 @@
                             $k = $j+1;                
                         }
                         if($k == $j -1){
+                            
                             $continuar = false;
                         }        
                     }
                 }
+            }
 
-                if($continuar){
+                if(isset($continuar) && $continuar){
                     if(isset($_SESSION['admin'])){
                         echo "<p>* Selecciona un dia</p>";
                     }
@@ -153,7 +157,7 @@
                                         }
                                         echo "
                                             <img src='assets/img/comidas/$foto' class='card-img-top' alt='...'>
-                                            <i>$dia / $mes / $ano</i>
+                                            <p class='fecha'>$dia / $mes / $ano</p>
                                             <div class='card-body'>
                                                 <p class='card-text'>$descripcionCorta<a class='' href='php/gestioncomidas/verComida.php?idComida=$id'>Ver más</a></p>
                                             </div>
@@ -221,7 +225,7 @@
     
                     $inicioSiguienteSemana = clone $inicioSemanaActual;
                     $inicioSiguienteSemana->modify('+1 week');
-
+                    echo "<div class='indicacion mobile'><i class='fa-solid fa-square'></i> Día actual</div>";
                     echo "<table class='mobile'>";
                     // Iterar sobre los días de la semana actual y la siguiente
                     $comidas = 0;
@@ -306,7 +310,7 @@
                                         }
                                         echo "
                                             <img src='assets/img/comidas/$foto' class='card-img-top' alt='...'> 
-                                            <i>$dia / $mes / $ano</i>
+                                            <p class='fecha'>$dia / $mes / $ano</p>
                                             <div class='card-body'>
                                                 <p class='card-text'>$descripcionCorta<a class='' href='php/gestioncomidas/verComida.php?idComida=$id'>Ver más</a></p>
                                             </div>
@@ -435,22 +439,26 @@
                         }
                         echo "</div>";
                     }
-                }
-                
-            } else {
+                }else {
                 session_unset();
                 echo "<p>* Introduce el codigo del menu semanal</p>";
                 echo "<form class='introducirCodigo' action='#' method='GET'>
-                    <input type='text' name='codigo' placeholder='EJ: 45324'> 
+                    <input type='text' name='codigo' placeholder='EJ: 45324B'> 
                     <input type='password' name='pass' placeholder='Contraseña (opcional)'>
                     <input type='submit' name='buscar' value='Buscar'>                    
                 </form>";
                 if(isset($_GET['codigo']) && $_GET['codigo'] == ''){
                     echo "<p class='alerta'><i class='fa-solid fa-triangle-exclamation'></i> Por favor, introduce un código para continuar.</p>";
                 }
+                echo "<div class='galeria-index'>
+                    <div class='tall'><img src='assets/img/pollo.webp' alt=''></div>
+                    <div><img src='assets/img/tallarines.webp' alt=''></div>
+                    <div><img src='assets/img/potaje.webp' alt=''></div>
+                </div>";
             }
 
             ?>
+            
         </div>
     </main>
     <?php

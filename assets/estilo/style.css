@@ -225,6 +225,10 @@ main {
     background-color: var(--details1);
 }
 
+form.introducirCodigo{
+    text-align: right;
+}
+
 form.introducirCodigo input[type="text"], form.introducirCodigo input[type="password"], form.introducirCodigo input[type="submit"]{
     border: 0px;
     padding: 0.5rem;
@@ -251,6 +255,39 @@ form.introducirCodigo input[type="text"]:focus, form.introducirCodigo input[type
 input[type="text"],  input[type="password"]{
     -moz-appearance: textfield; /* Firefox */
   }
+
+  .galeria-index{
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+    height: 30%;
+    margin-top: 3rem;
+  }
+
+  .galeria-index>div{
+    overflow: hidden;
+    position: relative;
+  }
+
+  .galeria-index img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+    border-radius: 10px;
+}
+
+.galeria-index img:hover {
+    transform: scale(1.1);
+}
+
+.galeria-index>div.tall {
+    grid-row: span 2;
+}
   
   /* Opcional: para otros navegadores que soporten la propiedad appearance */
   input[type="text"]::-webkit-outer-spin-button,
@@ -426,6 +463,10 @@ input[type="text"],  input[type="password"]{
     font-weight: bold;
 } 
 
+.calendario table td .comida p.fecha{
+    font-size: 1.15rem;
+}
+
 .calendario table td a.cerrar{
     top:5px;
     right:5px;
@@ -472,8 +513,8 @@ input[type="text"],  input[type="password"]{
     width: 70%;
     margin: auto;
     padding-top: 3.5rem;
-    background-color: var(--main2);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    background-color: #faf6ef;
+    box-shadow: rgba(0, 0, 0, 0.034) 0px 4px 12px;
     border-radius: 0px 0px 10px 10px;
 }
 
@@ -513,7 +554,7 @@ input[type="text"],  input[type="password"]{
 }
 
 .Carne {
-    background-color: rgba(218, 26, 26, 0.158);
+    background-color: rgba(244, 168, 168, 0.644);
 }
 
 .Pasta {
@@ -523,9 +564,9 @@ input[type="text"],  input[type="password"]{
 .Pescado {
     background-color: rgba(3, 178, 247, 0.103);
 }
-
+    
 .Guiso {
-    background-color: rgba(63, 37, 12, 0.253);
+    background-color: rgba(209, 179, 163, 0.623);
 }
 
 /* Footer */
@@ -545,7 +586,23 @@ footer p {
     display: none;
 }
 
+.indicacion{
+    text-align: right;
+    margin: 1rem;
+}
+
+.indicacion i{
+    color: transparent;
+    background-color: var(--detailslight);
+    border: 1px solid var(--text);
+}
+
 @media(max-width: 900px) {
+
+    form.introducirCodigo{
+        text-align: center;
+    }
+    
 
     .calendario h1{
         width: auto;
@@ -605,7 +662,7 @@ footer p {
     }
     
     tr.marcado.nombredia{
-        background-color: var(--detailslight);
+        background-color: var(--detailslight) !important;
        
     }
 
